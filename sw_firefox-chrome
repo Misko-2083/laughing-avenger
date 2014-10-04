@@ -20,7 +20,7 @@ else
 fi
 
 ic="/usr/share/icons/zenity-llcc.png"
-selection=$(zenity --window-icon="$ic" --list --radiolist --width=860 --height=680 --column="Select" --column="Name" --column="Status" \
+selection=$(zenity --window-icon="$ic" --list --radiolist --width=650 --height=200 --column="Select" --column="Name" --column="Status" \
  --column="Description" --text="Select the web browser you wish to set as default. (Firefox and Google Chrome)" --title="Choose default browser" --ok-label="Set" --cancel-label="Quit" \
 "${firefox[@]}" "${googlechrome[@]}" "${chromium[@]}" )
 
