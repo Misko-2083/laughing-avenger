@@ -1,0 +1,30 @@
+#! /bin/bash
+# Author: Misko_2083
+
+test_firefox1=(`cat "/etc/gnome/defaults.list" | grep "application/xhtml+xml"`)
+test_firefox2=(`cat "/etc/gnome/defaults.list" | grep "text/html"`)
+test_firefox3=(`cat "/etc/gnome/defaults.list" | grep "x-scheme-handler/http"`)
+test_firefox4=(`cat "/etc/gnome/defaults.list" | grep "x-scheme-handler/https"`)
+if [ "${test_firefox1[0]}" = "application/xhtml+xml=firefox.desktop;" ] && [ "${test_firefox2[0]}" = "text/html=firefox.desktop;" ] && [ "${test_firefox3[0]}" = "x-scheme-handler/http=firefox.desktop;" ] && [ "${test_firefox4[0]}" = "x-scheme-handler/https=firefox.desktop;" ]; then
+	firefox=("TRUE" "Firefox" "default" "Firefox is currently your default web browser" )
+	googlechrome=("FALSE" "Google Chrome" "not default" "Set Google Chrome as web browser" )
+else
+	firefox=("FALSE" "Firefox" "not default" "Set firefox as default web browser" )
+	googlechrome=("TRUE" "Google Chrome" "default" "Google Chrome is currently your default web browser" )
+fi
+
+ic="/usr/share/icons/zenity-llcc.png"
+selection=$(zenity --window-icon="$ic" --list --radiolist --width=860 --height=680 --column="Select" --column="Name" --column="Status" \
+ --column="Description" --text="Select the web browser you wish to set as default. (Firefox and Google Chrome)" --title="Choose default browser" --ok-label="Set" --cancel-label="Quit" \
+"${firefox[@]}" "${googlechrome[@]}" )
+
+case "$selection" in
+"Firefox") `sudo sed -i  "s!^application/xhtml+xml=google-chrome.desktop;firefox.desktop;!application/xhtml+xml=firefox.desktop;!g" /etc/gnome/defaults.list `;
+`sudo sed -i "s!^text/html=google-chrome.desktop;firefox.desktop;!text/html=firefox.desktop;!g" /etc/gnome/defaults.list `; \
+`sudo sed -i "s!^x-scheme-handler/http=google-chrome.desktop;firefox.desktop;!x-scheme-handler/http=firefox.desktop;!g" /etc/gnome/defaults.list `; \
+`sudo sed -i "s!^x-scheme-handler/https=google-chrome.desktop;firefox.desktop;!x-scheme-handler/https=firefox.desktop;!g" /etc/gnome/defaults.list `;; 
+"Google Chrome") `sudo sed -i "s!^application/xhtml+xml=firefox.desktop;!application/xhtml+xml=google-chrome.desktop;firefox.desktop;!g" /etc/gnome/defaults.list `; \
+`sudo sed -i "s!^text/html=firefox.desktop;!text/html=google-chrome.desktop;firefox.desktop;!g" /etc/gnome/defaults.list `; \
+`sudo sed -i "s!^x-scheme-handler/http=firefox.desktop;!x-scheme-handler/http=google-chrome.desktop;firefox.desktop;!g" /etc/gnome/defaults.list `; \
+`sudo sed -i "s!^x-scheme-handler/https=firefox.desktop;!x-scheme-handler/https=google-chrome.desktop;firefox.desktop;!g" /etc/gnome/defaults.list `;; 
+esac
