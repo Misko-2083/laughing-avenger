@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # Author: Misko_2083
 
 test_1=(`cat "/etc/gnome/defaults.list" | grep "application/xhtml+xml"`)
