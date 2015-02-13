@@ -1,6 +1,10 @@
 #!/bin/bash
-# Author: Misko_2083
+#-------------------------------------------------------------------------------
+# Description: Lite Tweaks - Set a default Browser
 # This script must be run with elevated privileges (gksudo)
+# Authors: Misko_2083, Jerry Bezencon
+# Website: https://www.linuxliteos.com
+#-------------------------------------------------------------------------------
 
 test_1=(`cat "/etc/gnome/defaults.list" | grep "application/xhtml+xml"`)
 test_2=(`cat "/etc/gnome/defaults.list" | grep "text/html"`)
@@ -11,28 +15,28 @@ if [ "${test_1[0]}" = "application/xhtml+xml=firefox.desktop;" ] && [ "${test_2[
 	firefox=("TRUE" "Firefox" "default" "Firefox is currently your default web browser" )
 	googlechrome=("FALSE" "Google Chrome" "not default" "Set Google Chrome as default web browser" )
 	chromium=("FALSE" "Chromium" "not default" "Set Google Chrome as default web browser" )
-	midori=("FALSE" "Midori" "not default" "Set Midori as default web browser" )
+	midori=("FALSE" "Midori" "not default" "Set Midori as the default web browser" )
 elif [ "${test_1[0]}" = "application/xhtml+xml=chromium-browser.desktop;firefox.desktop;" ] && [ "${test_2[0]}" = "text/html=chromium-browser.desktop;firefox.desktop;" ] && [ "${test_3[0]}" = "x-scheme-handler/http=chromium-browser.desktop;firefox.desktop;" ] && [ "${test_4[0]}" = "x-scheme-handler/https=chromium-browser.desktop;firefox.desktop;" ]; then
-	firefox=("FALSE" "Firefox" "not default" "Set firefox as default web browser" )
+	firefox=("FALSE" "Firefox" "not default" "Set firefox as the default web browser" )
 	googlechrome=("FALSE" "Google Chrome" "not default" "Set Google Chrome as default web browser" )
 	chromium=("TRUE" "Chromium" "default" "Chromium is currently your default web browser" )
-	midori=("FALSE" "Midori" "not default" "Set Midori as default web browser" )
+	midori=("FALSE" "Midori" "not default" "Set Midori as the default web browser" )
 elif [ "${test_1[0]}" = "application/xhtml+xml=midori.desktop;firefox.desktop;" ] && [ "${test_2[0]}" = "text/html=midori.desktop;firefox.desktop;" ] && [ "${test_3[0]}" = "x-scheme-handler/http=midori.desktop;firefox.desktop;" ] && [ "${test_4[0]}" = "x-scheme-handler/https=midori.desktop;firefox.desktop;" ]; then
-	firefox=("FALSE" "Firefox" "not default" "Set firefox as default web browser" )
+	firefox=("FALSE" "Firefox" "not default" "Set firefox as the default web browser" )
 	googlechrome=("FALSE" "Google Chrome" "not default" "Set Google Chrome as default web browser" )
 	chromium=("FALSE" "Chromium" "not default" "Set Chromium as default web browser" )
 	midori=("TRUE" "Midori" "default" "Midori is currently your default web browser" )
 else
-	firefox=("FALSE" "Firefox" "not default" "Set firefox as default web browser" )
+	firefox=("FALSE" "Firefox" "not default" "Set firefox as the default web browser" )
 	googlechrome=("TRUE" "Google Chrome" "default" "Google Chrome is currently your default web browser" )
-	chromium=("FALSE" "Chromium" "not default" "Set Chromium as default web browser" )
-	midori=("FALSE" "Midori" "not default" "Set Midori as default web browser" )
+	chromium=("FALSE" "Chromium" "not default" "Set Chromium as the default web browser" )
+	midori=("FALSE" "Midori" "not default" "Set Midori as the default web browser" )
 fi
 
 ic="/usr/share/icons/zenity-llcc.png"
 
-selection=$(zenity --window-icon="$ic" --list --radiolist --width=650 --height=200 --column="Select" --column="Name" --column="Status" \
---column="Description" --text="Select the web browser you wish to set as default." --title="Choose default browser" --ok-label="Set" --cancel-label="Quit" \
+selection=$(zenity --window-icon="$ic" --list --radiolist --width=650 --height=240 --column="Select" --column="Name" --column="Status" \
+--column="Description" --text="Select the web browser you wish to set as default." --title="Choose a default browser" --ok-label="Set" --cancel-label="Quit" \
 "${firefox[@]}" "${googlechrome[@]}" "${chromium[@]}" "${midori[@]}")
 
 case "$selection" in
